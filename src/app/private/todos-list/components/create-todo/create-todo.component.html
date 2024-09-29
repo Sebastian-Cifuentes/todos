@@ -1,1 +1,19 @@
-<p>create-todo works!</p>
+<p class="text-2xl text-center">Crear tarea</p>
+<form [formGroup]="form">
+
+    <div class="flex flex-column gap-2 mb-4">
+        <label for="name">Nombre de la tarea</label>
+        <input 
+            pInputText 
+            type="text"
+            formControlName="name" />
+    </div>
+
+    <div class="flex flex-column gap-2 mb-4">
+        <label for="date">Fecha límite</label>
+        <p-calendar />
+    </div>
+
+    <app-add-collaborator></app-add-collaborator>
+
+</form>

@@ -1,1 +1,21 @@
-<p>collaborator-skills works!</p>
+<form [formGroup]="form" class="mb-3">
+    <div formArrayName="skills">
+        <div *ngFor="let skill of skills.controls; let i = index;">
+            <ng-container [formGroupName]="i">
+                <div class="flex align-items-center">
+                    <div class="flex flex-column gap-2 mb-4 w-12">
+                        <label for="skill">Habilidad # {{i+1}}</label>
+                        <input 
+                            pInputText 
+                            type="text"
+                            formControlName="skill" />
+                    </div>
+                    <p-button (click)="deleteSkill(i)" label="Eliminar" severity="danger" />
+                </div>
+
+            </ng-container>
+        </div>
+    </div>
+    <p-button (click)="addSkill()" label="Añadir habilidad" />
+
+</form>
