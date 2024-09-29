@@ -1,3 +1,20 @@
 {
-    "todos": []    
+    "todos": [
+        {
+            "id": 1,
+            "name": "first",
+            "date": "29/12/2024",
+            "collaborators": [
+                {
+                    "name": "first",
+                    "age": 0,
+                    "skills": [
+                        {
+                            "name":"first"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]    
 }
