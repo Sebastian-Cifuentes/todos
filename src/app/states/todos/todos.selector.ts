@@ -14,9 +14,11 @@ export const selectStatusTodos = (completed: boolean) => createSelector(
   (todos) => todos.filter(todo => todo.completed === completed)
 );
 
-export const selectByIdTodo = (id: number) => createSelector(
-    selectAllTodos,
-    (todos) => todos.find(todo => todo.id === id)
+export const selectByIdTodo = (id: string) => createSelector(
+    selectTodoState,
+    (state: TodoState) => {
+      return state.todos.find(todo => todo.id === id);
+    }
   );
 
 export const selectTodoCount = createSelector(

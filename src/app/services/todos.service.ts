@@ -31,7 +31,7 @@ export class TodosService extends ApiService {
     return this.put(`todos/${id}`, todo);
   }
   
-  deleteTodo(id: number) {
+  deleteTodo(id: string) {
     const params = new HttpParams()
       .set('id', id);
     return this.delete(`todos/${id}`, { params });

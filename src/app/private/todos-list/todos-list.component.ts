@@ -1,24 +1,26 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 /** Prime ng */
-import { PanelModule } from 'primeng/panel';
+import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 /** Components */
 import { StatusFilterComponent } from './components/status-filter/status-filter.component';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { Todo } from 'src/app/interfaces/todo.interface';
+
+/** Config */
 import { Store } from '@ngrx/store';
-import { selectAllTodos } from 'src/app/states/todos/todos.selector';
-import { loadTodos } from 'src/app/states/todos/todos.action';
-import { TodoState } from 'src/app/states/todos/todos.state';
+import { selectAllTodos } from '../../states/todos/todos.selector';
+import { editTodo, loadTodos, removeTodo } from '../../states/todos/todos.action';
+import { Todo } from 'src/app/interfaces/todo.interface';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-todos-list',
   standalone: true,
-  imports: [CommonModule, PanelModule, ButtonModule, StatusFilterComponent],
+  imports: [CommonModule, CardModule, ButtonModule, InputSwitchModule, StatusFilterComponent, FormsModule],
   templateUrl: './todos-list.component.html',
   styleUrls: ['./todos-list.component.css']
 })
@@ -29,18 +31,26 @@ export class TodosListComponent {
   router = inject(Router);
 
   constructor(private store: Store) {
-    // Select all todos from the store
-    this.todos$ = this.store.select(selectAllTodos);
   }
   
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
     this.store.dispatch(loadTodos());
+  }
+
+  toggleTodo(todo: Todo) {
+    this.store.dispatch(editTodo({todo: {...todo, completed: !todo.completed}}));
+  }
+
+  removeTodo(id: string) {
+    this.store.dispatch(removeTodo({id}));
   }
 
   createTodo() {
     this.router.navigateByUrl('/add-todo');
+  }
+  
+  editTodo(id: string) {
+    this.router.navigateByUrl(`/edit-todo/${id}`);
   }
 
 }

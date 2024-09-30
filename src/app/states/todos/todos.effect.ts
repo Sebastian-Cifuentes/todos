@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap } from 'rxjs/operators';
-import { loadTodos, loadTodosSuccess, addTodo, addTodoSuccess, removeTodSuccess, removeTodo } from './todos.action';
+import { debounceTime, distinctUntilChanged, map, mergeMap, switchMap } from 'rxjs/operators';
+import { loadTodos, loadTodosSuccess, addTodo, addTodoSuccess, removeTodSuccess, removeTodo, loadTodoById, loadTodoByIdSuccess, editTodo, editTodoSuccess } from './todos.action';
 import { TodosService } from '../../services/todos.service';
 
 @Injectable()
@@ -22,6 +22,19 @@ export class TodoEffects {
     )
   );
 
+  loadTodoById$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadTodoById),
+      mergeMap(({id}) =>
+        this.todoService.getTodo(id).pipe(
+          map((todo) => {
+            return loadTodosSuccess({ todos: [todo], loading: false })
+          })
+        )
+      )
+    )
+  );
+
   addTodos$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addTodo),
@@ -32,13 +45,26 @@ export class TodoEffects {
       )
     )
   );
+
+  editTodo$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(editTodo),
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(action =>
+        this.todoService.editTodo(action.todo.id, action.todo).pipe(
+          map((updatedTodo: any) => editTodoSuccess({ todo: updatedTodo }))
+        )
+      )
+    )
+  );
   
   removeTodos$ = createEffect(() =>
     this.actions$.pipe(
       ofType(removeTodo),
       mergeMap(({id}) =>
         this.todoService.deleteTodo(id).pipe(
-            map(() => removeTodSuccess({ loading: false }))
+            map(() => removeTodSuccess())
         )
       )
     )

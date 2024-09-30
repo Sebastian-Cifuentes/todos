@@ -2,10 +2,10 @@
 
 <form [formGroup]="form">
     <div formArrayName="collaborators">
-        <div *ngFor="let collaborator of collaborators.controls; let i = index;">
+        <div *ngFor="let collaborator of collaboratorsForm.controls; let i = index;">
             <div class="flex justify-content-between">
                 <p>Colaborador {{i + 1}}</p>
-                <p-button (click)="deleteCollaborator(i)" label="Eliminar colaborador" severity="danger" />
+                <p-button size="small" (click)="deleteCollaborator(i)" icon="pi pi-trash" severity="danger" />
             </div>
             <ng-container [formGroupName]="i">
                 <div class="flex flex-column gap-2 mb-4">
@@ -23,11 +23,11 @@
                         formControlName="age" />
                 </div>
 
-                <app-collaborator-skills></app-collaborator-skills>
+                <app-collaborator-skills [skills]="collaborator.get('skills')?.value"></app-collaborator-skills>
                 
             </ng-container>
         </div>
     </div>
-    <p-button (click)="addCollaborator()" label="Añadir colaborador" />
+    <p-button size="small" (click)="addCollaborator()" label="Añadir colaborador" />
 
 </form>

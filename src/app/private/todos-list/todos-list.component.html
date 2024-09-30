@@ -3,12 +3,27 @@
   <p-button (click)="createTodo()" label="Crear tarea" />
 </div>
 
-<p-panel header="Header">
-  <p>
-      Lorem ipsum dolor sit amet...
-  </p>
-</p-panel>
-
-<p *ngFor="let todo of todos$ | async">
-  hola
-</p>
+<div *ngFor="let todo of todos$ | async" class="mb-2">
+  <p-card>
+    <div class="flex align-items-center justify-content-between">
+      <p class="text-2xl font-bold">{{todo.name}}</p>
+      <div class="flex align-items-center">
+        <p-inputSwitch class="mr-5" [ngModel]="todo.completed" (onChange)="toggleTodo(todo)"  />
+        <p-button class="mr-5" size="small" (click)="editTodo(todo.id)" icon="pi pi-pen-to-square" />
+        <p-button class="mr-5" size="small" severity="danger" icon="pi pi-trash" (click)="removeTodo(todo.id)" />
+      </div>
+    </div>
+    <p>
+      <span class="font-bold">Fecha límite: </span> <span>{{todo.date | date}}</span>
+    </p>
+    <div *ngIf="todo.collaborators?.length! > 0">
+      <p class="font-bold">Colaboradores:</p>
+      <div *ngFor="let collaborator of todo.collaborators">
+        <p>{{ collaborator.name }} | {{ collaborator.age }} años</p>
+        <p *ngIf="collaborator.skills?.length! > 0">
+          <span class="font-bold">Habilidades: </span> <span *ngFor="let skill of collaborator.skills">{{skill.name}}, </span>
+        </p>
+      </div>
+    </div>
+  </p-card>
+</div>

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlContainer, FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -8,6 +8,7 @@ import { InputTextModule } from 'primeng/inputtext';
 
 /** Components */
 import { CollaboratorSkillsComponent } from '../collaborator-skills/collaborator-skills.component';
+import { Collaborator } from '../../../../interfaces/todo.interface';
 
 @Component({
   selector: 'app-add-collaborator',
@@ -18,7 +19,9 @@ import { CollaboratorSkillsComponent } from '../collaborator-skills/collaborator
 })
 export class AddCollaboratorComponent {
 
-  get collaborators(): FormArray {
+  @Input()collaborators: Collaborator[] | undefined = [];
+
+  get collaboratorsForm(): FormArray {
     return this.form.get('collaborators') as FormArray;
   }
 
@@ -27,21 +30,30 @@ export class AddCollaboratorComponent {
 
   ngOnInit(): void {
     this.form = this.controlContainer.control as FormGroup;
+    if (this.collaborators && this.collaborators!.length > 0) {
+      this.setForm();
+    }
   }
 
-  addCollaborator() {
-    this.collaborators.push(
+  setForm() {
+    this.collaborators!.forEach(collaborator => {
+      this.addCollaborator(collaborator);
+    });
+  }
+
+  addCollaborator(collaborator?: Collaborator) {
+    this.collaboratorsForm.push(
       new FormGroup({
-        name: new FormControl('', Validators.required),
-        age: new FormControl('', Validators.required),
+        name: new FormControl(collaborator ? collaborator.name : '', Validators.required),
+        age: new FormControl(collaborator ? collaborator.age : '', Validators.required),
         skills: new FormArray([]),
       })
     )
   }
 
   deleteCollaborator(i: number) {
-    this.collaborators.removeAt(i);
-    this.collaborators.updateValueAndValidity();
+    this.collaboratorsForm.removeAt(i);
+    this.collaboratorsForm.updateValueAndValidity();
   }
 
 }

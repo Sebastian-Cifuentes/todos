@@ -1,5 +1,5 @@
-<p class="text-2xl text-center">Crear tarea</p>
-<form [formGroup]="form">
+<p class="text-2xl text-center">{{ id ? 'Actualizar' : 'Crear' }} tarea</p>
+<form [formGroup]="form" class="mb-6">
 
     <div class="flex flex-column gap-2 mb-4">
         <label for="name">Nombre de la tarea</label>
@@ -11,9 +11,14 @@
 
     <div class="flex flex-column gap-2 mb-4">
         <label for="date">Fecha límite</label>
-        <p-calendar />
+        <p-calendar formControlName="date"/>
     </div>
 
-    <app-add-collaborator></app-add-collaborator>
+    <app-add-collaborator [collaborators]="todo?.collaborators"></app-add-collaborator>
 
 </form>
+
+<div class="flex justify-content-center">
+    <p-button (click)="createTodo()" label="{{ id ? 'Actualizar' : 'Crear' }} tarea"/>
+</div>
+
