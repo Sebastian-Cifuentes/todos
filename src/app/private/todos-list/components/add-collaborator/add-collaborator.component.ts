@@ -19,7 +19,7 @@ import { Collaborator } from '../../../../interfaces/todo.interface';
 })
 export class AddCollaboratorComponent {
 
-  @Input()collaborators: Collaborator[] | undefined = [];
+  @Input()collaborators: Collaborator[] = [];
 
   get collaboratorsForm(): FormArray {
     return this.form.get('collaborators') as FormArray;
@@ -48,7 +48,7 @@ export class AddCollaboratorComponent {
         age: new FormControl(collaborator ? collaborator.age : '', Validators.required),
         skills: new FormArray([]),
       })
-    )
+    );
   }
 
   deleteCollaborator(i: number) {

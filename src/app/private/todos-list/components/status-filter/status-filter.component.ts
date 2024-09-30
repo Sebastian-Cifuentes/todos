@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 /** Prime ng */
@@ -19,14 +19,18 @@ import { FormsModule } from '@angular/forms';
 export class StatusFilterComponent {
 
   filters: Filter[] | undefined;
-
   selectedFilter: Filter | undefined;
+  @Output()onfilter = new EventEmitter<any>();
 
   ngOnInit() {
     this.filters = [
-        { name: 'Completadas', value: 'completed' },
-        { name: 'Pendientes', value: 'pending' }
+        { name: 'Completadas', value: true },
+        { name: 'Pendientes', value: false }
     ];
-}
+  }
+
+  filter() {
+    this.onfilter.emit(this.selectedFilter);
+  }
 
 }

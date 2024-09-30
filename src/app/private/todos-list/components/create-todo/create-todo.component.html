@@ -1,4 +1,4 @@
-<p class="text-2xl text-center">{{ id ? 'Actualizar' : 'Crear' }} tarea</p>
+<p class="text-2xl text-center font-bold">{{ id ? 'Actualizar' : 'Crear' }} tarea</p>
 <form [formGroup]="form" class="mb-6">
 
     <div class="flex flex-column gap-2 mb-4">
@@ -14,7 +14,8 @@
         <p-calendar formControlName="date"/>
     </div>
 
-    <app-add-collaborator [collaborators]="todo?.collaborators"></app-add-collaborator>
+    <app-add-collaborator *ngIf="!todo"></app-add-collaborator>
+    <app-add-collaborator *ngIf="todo" [collaborators]="todo.collaborators ?? []"></app-add-collaborator>
 
 </form>
 

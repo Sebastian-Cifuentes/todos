@@ -1,4 +1,4 @@
-<p>Colaboradores asociados</p>
+<p class="font-bold">Colaboradores asociados</p>
 
 <form [formGroup]="form">
     <div formArrayName="collaborators">
@@ -23,7 +23,8 @@
                         formControlName="age" />
                 </div>
 
-                <app-collaborator-skills [skills]="collaborator.get('skills')?.value"></app-collaborator-skills>
+                <app-collaborator-skills *ngIf="collaborators[i]" [skills]="collaborators[i].skills ?? []"></app-collaborator-skills>
+                <app-collaborator-skills *ngIf="!collaborators[i]"></app-collaborator-skills>
                 
             </ng-container>
         </div>

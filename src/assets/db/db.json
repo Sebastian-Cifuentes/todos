@@ -1,26 +1,16 @@
 {
   "todos": [
     {
-      "id": "4cd7",
       "name": "test",
       "date": "2024-09-03T05:00:00.000Z",
-      "collaborators": [
-        {
-          "name": "mabel",
-          "age": 22,
-          "skills": [
-            {
-              "name": "illustrator"
-            }
-          ]
-        }
-      ],
-      "completed": true
+      "completed": true,
+      "collaborators": [],
+      "id": "4cd7"
     },
     {
-      "id": "fd80",
       "name": "tarea q",
       "date": "2024-09-10T05:00:00.000Z",
+      "completed": false,
       "collaborators": [
         {
           "name": "sebastian",
@@ -31,7 +21,15 @@
             }
           ]
         }
-      ]
+      ],
+      "id": "fd80"
+    },
+    {
+      "id": "f042",
+      "name": "testtting",
+      "date": "2024-09-17T05:00:00.000Z",
+      "completed": false,
+      "collaborators": []
     }
   ]
 }

@@ -1,5 +1,5 @@
 <div class="flex justify-content-end mb-2">
-  <app-status-filter></app-status-filter>
+  <app-status-filter (onfilter)="filter($event)"></app-status-filter>
   <p-button (click)="createTodo()" label="Crear tarea" />
 </div>
 

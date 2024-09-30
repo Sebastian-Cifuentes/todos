@@ -12,10 +12,12 @@ import { StatusFilterComponent } from './components/status-filter/status-filter.
 
 /** Config */
 import { Store } from '@ngrx/store';
-import { selectAllTodos } from '../../states/todos/todos.selector';
+import { selectAllTodos, selectStatusTodos } from '../../states/todos/todos.selector';
 import { editTodo, loadTodos, removeTodo } from '../../states/todos/todos.action';
 import { Todo } from 'src/app/interfaces/todo.interface';
 import { FormsModule } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { Filter } from 'src/app/interfaces/filter.interfaces';
 
 @Component({
   selector: 'app-todos-list',
@@ -27,6 +29,7 @@ import { FormsModule } from '@angular/forms';
 export class TodosListComponent {
 
   todos$ = this.store.select(selectAllTodos);
+  filtertodos$!: Observable<Todo[]>;
 
   router = inject(Router);
 
@@ -50,7 +53,11 @@ export class TodosListComponent {
   }
   
   editTodo(id: string) {
-    this.router.navigateByUrl(`/edit-todo/${id}`);
+    this.router.navigate(['/edit-todo', id]);
+  }
+
+  filter(filter: Filter) {
+    this.todos$ = this.store.select(selectStatusTodos(filter.value));
   }
 
 }

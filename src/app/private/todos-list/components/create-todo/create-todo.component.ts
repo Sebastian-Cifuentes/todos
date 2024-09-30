@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 
 /** Prime ng */
 import { InputTextModule } from 'primeng/inputtext';
@@ -12,7 +12,7 @@ import { AddCollaboratorComponent } from '../add-collaborator/add-collaborator.c
 /** Config */
 import { Store } from '@ngrx/store';
 import { selectByIdTodo } from '../../../../states/todos/todos.selector';
-import { addTodo, loadTodoById, loadTodos } from '../../../../states/todos/todos.action';
+import { editTodo, loadTodoById, addTodo } from '../../../../states/todos/todos.action';
 import { Todo } from 'src/app/interfaces/todo.interface';
 import { ButtonModule } from 'primeng/button';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -34,7 +34,7 @@ export class CreateTodoComponent {
 
   constructor(
     private store: Store,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -62,17 +62,24 @@ export class CreateTodoComponent {
     this.form = new FormGroup({
       name: new FormControl(this.todo ? this.todo.name : '', Validators.required),
       date: new FormControl(this.todo ? new Date(this.todo.date) : '', Validators.required),
-      collaborators: new FormArray([])
+      completed: new FormControl(this.todo ? this.todo.completed : false),
+      collaborators: new FormArray([]),
     });
   }
 
   createTodo() {
+    console.log(this.form.get('collaborators')!.value);
     if (this.form.invalid) {
       return;
     }
     const todo: Todo = this.form.value;
-    this.store.dispatch(addTodo({todo, loading: false}));
-    this.router.navigateByUrl('todos');
+    console.log({todo: {...todo, id: this.id}});
+    // if (this.id) {
+    //   this.store.dispatch(editTodo({todo: {...todo, id: this.id}}));
+    // } else {
+    //   this.store.dispatch(addTodo({todo, loading: false}));
+    // }
+    // this.router.navigateByUrl('todos');
   }
 
 }
