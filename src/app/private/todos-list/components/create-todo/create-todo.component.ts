@@ -43,19 +43,20 @@ export class CreateTodoComponent {
 
     if (this.id) {
       this.getById();
-    }
-
+    } 
+    this.todo$.subscribe(todo => {
+      this.todo = todo!;
+      this.initForm();
+    })
+    
     this.initForm();
+
 
   }
 
   getById() {
     this.store.dispatch(loadTodoById({ id: this.id }));
     this.todo$ = this.store.select(selectByIdTodo(this.id));
-    this.todo$.subscribe(todo => {
-      this.todo = todo!;
-      this.initForm();
-    })
   }
 
   initForm() {
@@ -68,18 +69,16 @@ export class CreateTodoComponent {
   }
 
   createTodo() {
-    console.log(this.form.get('collaborators')!.value);
     if (this.form.invalid) {
       return;
     }
     const todo: Todo = this.form.value;
-    console.log({todo: {...todo, id: this.id}});
-    // if (this.id) {
-    //   this.store.dispatch(editTodo({todo: {...todo, id: this.id}}));
-    // } else {
-    //   this.store.dispatch(addTodo({todo, loading: false}));
-    // }
-    // this.router.navigateByUrl('todos');
+    if (this.id) {
+      this.store.dispatch(editTodo({todo: {...todo, id: this.id}}));
+    } else {
+      this.store.dispatch(addTodo({todo, loading: false}));
+    }
+    this.router.navigateByUrl('todos');
   }
 
 }

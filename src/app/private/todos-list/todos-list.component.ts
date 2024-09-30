@@ -53,7 +53,9 @@ export class TodosListComponent {
   }
   
   editTodo(id: string) {
-    this.router.navigate(['/edit-todo', id]);
+    this.router.navigate(['/edit-todo', id]).then(() => {
+      location.replace(location.href);
+    })
   }
 
   filter(filter: Filter) {
