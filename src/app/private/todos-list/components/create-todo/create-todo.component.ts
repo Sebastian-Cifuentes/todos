@@ -44,11 +44,7 @@ export class CreateTodoComponent {
     if (this.id) {
       this.getById();
     } 
-    this.todo$.subscribe(todo => {
-      this.todo = todo!;
-      this.initForm();
-    })
-    
+
     this.initForm();
 
 
@@ -57,6 +53,11 @@ export class CreateTodoComponent {
   getById() {
     this.store.dispatch(loadTodoById({ id: this.id }));
     this.todo$ = this.store.select(selectByIdTodo(this.id));
+    this.todo$.subscribe(todo => {
+      this.todo = todo!;
+      this.initForm();
+    })
+    
   }
 
   initForm() {

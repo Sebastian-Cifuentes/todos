@@ -30,7 +30,6 @@ export class AddCollaboratorComponent {
 
   ngOnInit(): void {
     this.form = this.controlContainer.control as FormGroup;
-    console.log(this.form);
     if (this.collaborators && this.collaborators!.length > 0) {
       this.setForm();
     }
